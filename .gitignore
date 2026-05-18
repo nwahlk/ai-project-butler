@@ -1,3 +1,10 @@
 __pycache__/
 *.pyc
 *.log
+.env/
+.venv/
+.pytest_cache/
+.aider.tags.cache.v4/
+logs/
+build/
+dist/
