@@ -2,11 +2,8 @@ import logging
 import os
 from pathlib import Path
 
-from analyzers.file_types import count_file_types
-from analyzers.markers import check_project_markers
-from analyzers.todos import find_todos
 from config import ScanConfig
-from models import ProjectReport, ScannedFile
+from models import ScannedFile, ScanResult
 
 
 logger = logging.getLogger(__name__)
@@ -44,13 +41,6 @@ def scan_project_files(config: ScanConfig) -> list[ScannedFile]:
     return files
 
 
-def build_project_report(config: ScanConfig) -> ProjectReport:
+def scan_project(config: ScanConfig) -> ScanResult:
     files = scan_project_files(config)
-
-    return ProjectReport(
-        root=config.root,
-        total_files=len(files),
-        file_types=count_file_types(files),
-        markers=check_project_markers(config.root, config.markers),
-        todos=find_todos(files, config.todo_keywords),
-    )
+    return ScanResult(root=config.root, files=files)

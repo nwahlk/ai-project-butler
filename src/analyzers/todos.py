@@ -2,7 +2,8 @@ import logging
 import re
 from pathlib import Path
 
-from models import ScannedFile, TodoItem
+from analyzers.base import AnalysisContext
+from models import ProjectAnalysis, ScannedFile, TodoItem
 
 
 logger = logging.getLogger(__name__)
@@ -110,3 +111,12 @@ def find_todos_in_text(
             )
 
     return items
+
+
+class TodoAnalyzer:
+    name = "todos"
+
+    def analyze(self, context: AnalysisContext) -> ProjectAnalysis:
+        return ProjectAnalysis(
+            todos=find_todos(context.files, context.config.todo_keywords)
+        )

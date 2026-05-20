@@ -30,8 +30,6 @@ py-modules = [
     "logging_config",
     "main",
     "models",
+    "project",
     "scanner",
 ]
-
-[tool.pytest.ini_options]
-pythonpath = ["src"]

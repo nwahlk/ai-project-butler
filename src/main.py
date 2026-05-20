@@ -2,8 +2,8 @@ from pathlib import Path
 
 from cli import app
 from config import ScanConfig
+from project import build_project_report
 from reporters.terminal import render_terminal_report
-from scanner import build_project_report
 
 
 def scan_project(path: str):

@@ -2,16 +2,17 @@ import logging
 from pathlib import Path
 
 import typer
-from rich import print as rprint
+from rich.console import Console
 
 from config import ScanConfig
 from logging_config import setup_logging
+from project import build_project_report
 from reporters.terminal import render_terminal_report
-from scanner import build_project_report
 
 
 logger = logging.getLogger(__name__)
 app = typer.Typer(help="Scan a code project and print a lightweight report.")
+console = Console()
 
 
 @app.callback()
@@ -29,7 +30,7 @@ def scan(
     logger.info("Scanning project at %s", path)
 
     report = build_project_report(ScanConfig(root=path))
-    rprint(render_terminal_report(report))
+    console.print(render_terminal_report(report), markup=False)
 
 
 if __name__ == "__main__":

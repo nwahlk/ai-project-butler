@@ -4,8 +4,9 @@ from typer.testing import CliRunner
 
 from cli import app
 from config import ScanConfig
+from project import build_project_report
 from reporters.terminal import render_terminal_report
-from scanner import build_project_report, scan_project_files
+from scanner import scan_project_files
 
 runner = CliRunner()
 

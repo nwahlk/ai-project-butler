@@ -28,13 +28,24 @@ DEFAULT_TODO_KEYWORDS = (
     "FIXME",
 )
 
+DEFAULT_ANALYZERS = (
+    "file_types",
+    "markers",
+    "todos",
+)
+
 
 @dataclass(frozen=True)
 class ScanConfig(BaseScanConfig):
     root: Path
     exclude_dirs: tuple[str, ...] = DEFAULT_EXCLUDE_DIRS
-    markers: tuple[str, ...] = DEFAULT_MARKERS
-    todo_keywords: tuple[str, ...] = DEFAULT_TODO_KEYWORDS
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "root", Path(self.root).resolve())
+
+
+@dataclass(frozen=True)
+class AnalyzerConfig:
+    enabled: tuple[str, ...] = DEFAULT_ANALYZERS
+    markers: tuple[str, ...] = DEFAULT_MARKERS
+    todo_keywords: tuple[str, ...] = DEFAULT_TODO_KEYWORDS
