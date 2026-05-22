@@ -1,0 +1,55 @@
+flowchart TD
+    User[用户] --> CLI[cli.py<br/>Typer 命令]
+    CLI --> Config[config.py<br/>ScanConfig]
+    CLI --> Project[project.py<br/>build_project_report]
+
+    Project --> Scanner[scanner.py<br/>scan_project]
+    Scanner --> ScanResult[models.ScanResult<br/>ScannedFile 列表]
+
+    Project --> Runner[analyzers/runner.py<br/>run_analyzers]
+    Config --> AnalyzerConfig[config.py<br/>AnalyzerConfig]
+    AnalyzerConfig --> Runner
+    ScanResult --> Runner
+
+    Runner --> Context[AnalysisContext]
+    Context --> FileTypes[FileTypeAnalyzer]
+    Context --> Markers[MarkerAnalyzer]
+    Context --> Todos[TodoAnalyzer]
+
+    FileTypes --> Analysis[models.ProjectAnalysis]
+    Markers --> Analysis
+    Todos --> Analysis
+
+    Runner --> AnalyzerTelemetry[AnalyzerExecution]
+    AnalyzerTelemetry --> ExecutionReport[telemetry.ExecutionReport]
+    Project --> ExecutionReport
+
+    Analysis --> Report[models.ProjectReport]
+    Project --> Report
+
+    Report --> TerminalReporter[reporters/terminal.py<br/>render_terminal_report]
+    TerminalReporter --> Output[终端输出]
+
+    subgraph BoundaryScanner[Scanner 边界]
+        Scanner
+        ScanResult
+    end
+
+    subgraph BoundaryAnalyzers[Analyzer 边界]
+        Runner
+        Context
+        FileTypes
+        Markers
+        Todos
+        Analysis
+    end
+
+    subgraph BoundaryObservability[Observability 边界]
+        AnalyzerTelemetry
+        ExecutionReport
+    end
+
+    subgraph BoundaryPresentation[展示边界]
+        TerminalReporter
+        Output
+    end

@@ -1,12 +1,13 @@
-import logging
 import os
 from pathlib import Path
 
 from config import ScanConfig
+from logging_utils import get_logger
 from models import ScannedFile, ScanResult
+from telemetry import elapsed_ms, now_ms
 
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 def scan_project_files(config: ScanConfig) -> list[ScannedFile]:
@@ -42,5 +43,13 @@ def scan_project_files(config: ScanConfig) -> list[ScannedFile]:
 
 
 def scan_project(config: ScanConfig) -> ScanResult:
+    start_ms = now_ms()
+    logger.info("Scan started root=%s", config.root)
     files = scan_project_files(config)
+    logger.info(
+        "Scan finished root=%s files=%s duration_ms=%.2f",
+        config.root,
+        len(files),
+        elapsed_ms(start_ms),
+    )
     return ScanResult(root=config.root, files=files)

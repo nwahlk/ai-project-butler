@@ -1,12 +1,12 @@
-import logging
 import re
 from pathlib import Path
 
 from analyzers.base import AnalysisContext
+from logging_utils import get_logger
 from models import ProjectAnalysis, ScannedFile, TodoItem
 
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 COMMENT_MARKERS = ("#", "//", "/*", "<!--", "--", ";", "*")
 
 

@@ -30,6 +30,8 @@ py-modules = [
     "logging_config",
     "main",
     "models",
+    "observability",
     "project",
     "scanner",
+    "telemetry",
 ]
